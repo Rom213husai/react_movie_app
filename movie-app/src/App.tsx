@@ -1,31 +1,7 @@
-import {useEffect,useState} from "react";
-import MovieCard from "./MovieCard"
-import './App.css'
-
-
-type Movie = {
-  id: string;
-  original_title: string;
-  poster_path: string;
-  overview: string;
-}
-
-type MovieJson = {
-  adult: boolean;
-  backdrop_path:string | null;
-  genre_ids: number[];
-  id: string;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string | null;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import { useEffect, useState } from "react";
+import MovieCard from "./MovieCard";
+import './App.css';
+import type { Movie, MovieJson } from "./types/movie_type";
 
 function App() {
   
@@ -66,6 +42,10 @@ function App() {
   const heroOverview = "1ヵ月後に1000年ぶりの彗星が訪れる日本。東京で暮らす平凡な男子高校生・瀧と、山深い村で都会の生活に憧れながら憂鬱な日々を送る女子高校生・三葉。つながりのない2人は、互いが入れ替わる不思議な夢を見る。";
   const heroImage = "https://media.themoviedb.org/t/p/w300_and_h450_bestv2/yLglTwyFOUZt5fNKm0PWL1PK5gm.jpg";
 
+  const Not_implemented = () =>{
+    alert('未実装です！');
+  }
+
   return (
     <div>
       <section className="hero-section">
@@ -84,10 +64,16 @@ function App() {
             <div className="hero-section-overview">{heroOverview}</div>
           )}
           <div className="hero-section-actions">
-            <button className="hero-section-btn hero-section-btn-primary">
-              ▶ Play
+            <button 
+              className="hero-section-btn hero-section-btn-primary"
+              onClick={Not_implemented}  
+            >
+                ▶ Play
             </button>
-            <button className="hero-section-btn hero-section-btnsecondary">
+            <button 
+            className="hero-section-btn hero-section-btnsecondary"
+            onClick={Not_implemented} 
+            >
               More Info
             </button>
           </div>

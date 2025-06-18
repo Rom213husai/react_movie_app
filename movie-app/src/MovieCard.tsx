@@ -1,15 +1,7 @@
-import {Link} from "react-router";
+import { Link } from "react-router";
 import "./App.css";
+import type{ Props } from "./types/movie_type";
 
-type Movie ={
-    id:string;
-    poster_path:string;
-    original_title:string;
-};
-
-type Props = {
-    movie:Movie;
-}
 
 const MovieCard = (props: Props) => {
     const { movie } = props;
