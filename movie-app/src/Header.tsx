@@ -1,11 +1,11 @@
 function Header({ children} : { children:React.ReactNode}){
     return (
-        <>
-            <header>
-                <h1>MOVIEFLTX</h1>
+        <div className="app-bg">
+            <header className="app-header">
+                <h1 className="app-title">MOVIEFLTX</h1>
             </header>
             <main>{children}</main>
-        </>
+        </div>
     );
 }
 

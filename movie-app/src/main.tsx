@@ -8,7 +8,7 @@ import Header from "./Header.tsx";
 
 const router = createBrowserRouter([
   {path: "/",Component: App},
-  {path: "/movies/:movieId",Component: MovieDetail },
+  {path: "/movies/:id",Component: MovieDetail },
 ]);
 
 createRoot(document.getElementById('root')!).render(
@@ -16,5 +16,5 @@ createRoot(document.getElementById('root')!).render(
     <Header>
       <RouterProvider router={router} />
     </Header>
-  </StrictMode>,
-)
+  </StrictMode>
+);

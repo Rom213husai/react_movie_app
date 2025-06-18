@@ -1,17 +1,8 @@
 import {useEffect,useState} from "react";
-import {useParams} from "react-router"
+import {Link,useParams} from "react-router"
+import "./MovieDetail.css";
+import { ArrowLeft,Clock,Star } from "lucide-react";
 
-type Movie = {
-    id: string;
-    original_title:string;
-    poster_path:string;
-    overview:string;
-    year:number;
-    rating:number;
-    runtime:number;
-    score: number;
-    genres:string[];
-};
 
 type MovieDetailJson = {
     adult:boolean;
@@ -54,17 +45,26 @@ type MovieDetailJson = {
     vote_count: number;
 };
 
+type Movie = {
+    id: string;
+    original_title:string;
+    poster_path:string;
+    overview:string;
+    year:number;
+    rating:number;
+    runtime:number;
+    score: number;
+    genres:string[];
+};
+
 function MovieDetail() {
-    const { movieId } =useParams();
+    const { id } =useParams();
     const [movie,setMovie] = useState<Movie | null>(null);
-    useEffect(() =>{
-        fetchMovieDetail();
-    },[]);
 
     const fetchMovieDetail = async () =>{
         const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
         const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}?language=ja&page=1&append_to_response=credits`,{
+            `https://api.themoviedb.org/3/movie/${id}?language=ja`,{
                 headers:{
                     Authorization:`Bearer ${API_KEY}`,
                 },
@@ -84,25 +84,71 @@ function MovieDetail() {
             genres: data.genres.map((genre) => genre.name),
         });
     }
-
+    useEffect(() =>{
+        fetchMovieDetail();
+    },[]);
 
     return (
-        <div>
-        {movie && (
-            <div>
-                <h2>{movie.original_title}</h2>
-                <img 
-                    src = {`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt = {movie.original_title}
-                />
-                <p>{movie.overview}</p>
-                <p>{movie.year}</p>
-                <p>{movie.rating}</p>
-                <p>{movie.runtime}</p>
-                <p>{movie.score}</p>
-                <p>{movie.genres}</p>
-            </div>
-        )}
+        <div className="movie-detail-root">
+            {movie && (
+                <>
+                    <div
+                        className="movie-detail-backdrop"
+                        style={{
+                            backgroundImage:`url(${
+                                "https://image.tmdb.org/t/p/w500" + movie.poster_path
+                            })`
+                        }}
+                    />
+                    <div className="movie-detail-backdrop-gradient" />
+                    <div className="movie-detail-container">
+                        <Link to="/" className="movie-detail-backlink">
+                            <ArrowLeft className="movie-detail-backlink-icon" size={20} />
+                            Back to home
+                        </Link>
+                        <div className="movie-detail-grid">
+                            <div className="movie-detail-poster-wrap">
+                                <img 
+                                    src= {"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+                                    alt= {movie.original_title}
+                                    className="movie-detail-poster-img"
+                                />
+                            </div>
+                            <div className="movie-detail-details">
+                                <h1 className="movie-detail-title">{movie.original_title}</h1>
+                                <div className="movie-detail-badges">
+                                    <span className="badge-outline">{movie.year}</span>
+                                    <span className="badge-outline">PG-13</span>
+                                    <span className="badge-outline">
+                                        <Clock className="badge-icon-svg" size={14} />
+                                        {movie.runtime}分
+                                    </span>
+                                    <span className="badge-outline">
+                                        <Star className="badge-icon-svg badge-star" size={14} />
+                                        {(movie.rating / 10).toFixed(1)}
+                                    </span>
+                                </div>
+                                <p className="movie-detail-overview">{movie.overview}</p>
+                                <div className="movie-detail-genres">
+                                    {movie.genres.map((g) => (
+                                        <span key={g} className="badge-genre">
+                                            {g}
+                                        </span>
+                                    ))}
+                                </div>
+                                <div className="movie-detail-actions">
+                                    <button className="movie-detail-btn movie-detail-btn-primary">
+                                        ▶Watch Now
+                                    </button>
+                                    <button className="movie-detail-btn">
+                                        + Add to My List
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
